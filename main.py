@@ -38,7 +38,6 @@ def detect_edges(blurred):
 def road_roi_mask(shape):
     #Marks the road-shaped region to keep
     height, width = shape[:2]
-    #Points are (x, y), measured from the top-left of the image
     vertices = np.array(
         [[
             (int(0.02 * width), int(0.92 * height)),
@@ -63,7 +62,7 @@ def make_comparison(image,roi_edges):
     return comparison
 
 def main():
-    #Paths are relative to this script, so VS Code can run it from any folder
+    #Writing Paths relative to this script, so VS Code can run it from any folder
     project_dir = os.path.dirname(os.path.abspath(__file__))
     input_path = os.path.join(project_dir, INPUT_IMAGE)
     output_dir = os.path.join(project_dir, OUTPUT_DIR)
