@@ -1,13 +1,18 @@
 Lane edge extractor
 
-What the program does
+What the program does:-
 
-The program reads an image. 
-It retains only white and yellow pixels, 
-blurs small leftover specks, 
-finds edges with Canny edge detection, 
-and keeps edges inside a trapezium-mask region.
-It saves each stage and a comparison with the original image.
+Loads a static road image using OpenCV.
+
+Uses HSV color filtering to isolate white and yellow lane markings.
+
+Applies Gaussian blur to reduce image noise.
+
+Uses Canny edge detection to identify lane-marking boundaries.
+
+Applies a Region of Interest (ROI) mask to retain edges within the road area.
+
+Saves the processed images for viewing and comparison.
 
 
 Functions in main.py
