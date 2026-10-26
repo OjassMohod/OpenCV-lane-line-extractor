@@ -5,7 +5,7 @@ import os
 import cv2 as cv
 import numpy as np
 
-INPUT_IMAGE = "road.webp"
+INPUT_IMAGE = "test1234.png"
 OUTPUT_DIR = "results"
 SHOW_IMAGE = True  # For OpenCV window
 
@@ -29,7 +29,7 @@ def filter_lane_colors(image):
 
 def blur_color_mask(colors):
     # Smoothens small specks before finding edges
-    return cv.GaussianBlur(colors,(BLUR_KERNEL_SIZE,BLUR_KERNEL_SIZE),0)
+    return cv.GaussianBlur(colors,(BLUR_KERNEL_SIZE,BLUR_KERNEL_SIZE),5)
 
 def detect_edges(blurred):
     #Finds boundaries in the smoothed mask
@@ -40,10 +40,10 @@ def road_roi_mask(shape):
     height, width = shape[:2]
     vertices = np.array(
         [[
-            (int(0.02 * width), int(0.92 * height)),
-            (int(0.38 * width), int(0.30 * height)),
-            (int(0.67 * width), int(0.30 * height)),
-            (int(0.98 * width), int(0.92 * height)),
+            (int(0.10 * width), int(0.92 * height)), #Bottom Left
+            (int(0.45 * width), int(0.60 * height)), #Top left
+            (int(0.70 * width), int(0.60 * height)), #Top Right
+            (int(0.90 * width), int(0.92 * height)), #Bottom Right
         ]],
         dtype=np.int32,
     )
@@ -82,7 +82,6 @@ def main():
         "04_roi_mask.png": roi_mask,
         "05_roi_edges.png": roi_edges,
     }
-    os.makedirs(output_dir, exist_ok=True)
     for filename, result in results.items():
         cv.imwrite(os.path.join(output_dir, filename), result)
     comparison = make_comparison(image, roi_edges)
@@ -90,7 +89,10 @@ def main():
 
     print(f"Saved 6 images to {output_dir}")
     if SHOW_IMAGE:
-        cv.imshow("Original and ROI edge pixels", comparison)
+        window = "Original and ROI edge pixels"
+        cv.namedWindow(window, cv.WINDOW_NORMAL)
+        cv.resizeWindow(window, 1800, 1200)
+        cv.imshow(window, comparison)
         cv.waitKey(0)
         cv.destroyAllWindows()
 
